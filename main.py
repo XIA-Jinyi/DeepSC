@@ -34,7 +34,7 @@ parser.add_argument('--batch-size', default=128, type=int)
 parser.add_argument('--epochs', default=80, type=int)
 
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:0" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
 def setup_seed(seed):
     torch.manual_seed(seed)
@@ -99,7 +99,7 @@ def train(epoch, args, net, mi_net=None):
 if __name__ == '__main__':
     # setup_seed(10)
     args = parser.parse_args()
-    args.vocab_file = '/import/antennas/Datasets/hx301/' + args.vocab_file
+    args.vocab_file = './' + args.vocab_file
     """ preparing the dataset """
     vocab = json.load(open(args.vocab_file, 'rb'))
     token_to_idx = vocab['token_to_idx']
